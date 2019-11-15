@@ -4,8 +4,6 @@ Orchestrates a automatic orchard with mycroft
 ## About
 This skill is intended to administrate 4 aspects of a orchard: soil moisture, temperature, brightness and athmomspheric pressure. this variables will me measure a few times a day, and depending on the data collected mycroft will alert the user to water the plant.
 
-vincent a. arcila, santiago santacruz, andrés d. chaves.
-
 ## Examples
 * "How are my plants"
 * "How is my plant"
