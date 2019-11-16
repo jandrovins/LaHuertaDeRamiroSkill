@@ -50,7 +50,7 @@ class Lahuertaderamiroskill(MycroftSkill):
         try:
             self.BH1750.update()
             if not self.BH1750.sample_ok:
-                "[ERROR]: An error has ocurred getting data from BH1750 - sample is not OK"
+                print("[ERROR]: An error has ocurred getting data from BH1750 - sample is not OK")
             else:
                 return self.BH1750.current_state_str
         except Exception as e:
@@ -61,12 +61,19 @@ class Lahuertaderamiroskill(MycroftSkill):
     @intent_file_handler('lahuertaderamiroskill.intent')
     def handle_lahuertaderamiroskill(self, message):
         self.speak_dialog('lahuertaderamiroskill')
+
+        self.temperature = measure_temperature()
+        self.humidity = measure_humidity()
+        self.pressure = measure_pressure()
+        self.altitude = measure_altitude()
+        self.luminosity = measure_luminosity()
+
+        #self.temperature_str = 
+
         message = message.lower()
-        if "how" in message:
-            measure_BH1750()
-            measure_BME280()
-        elif "temperature" in message:
-            m
+        #if "how" in message:
+
+        #elif "temperature" in message:
 
 
 
