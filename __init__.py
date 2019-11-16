@@ -62,11 +62,11 @@ class Lahuertaderamiroskill(MycroftSkill):
     def handle_lahuertaderamiroskill(self, message):
         self.speak_dialog('lahuertaderamiroskill')
 
-        self.temperature = measure_temperature()
-        self.humidity = measure_humidity()
-        self.pressure = measure_pressure()
-        self.altitude = measure_altitude()
-        self.luminosity = measure_luminosity()
+        self.temperature = self.measure_temperature()
+        self.humidity = self.measure_humidity()
+        self.pressure = self.measure_pressure()
+        self.altitude = self.measure_altitude()
+        self.luminosity = self.measure_luminosity()
 
         self.temperature_str = "the temperature is " + str(self.temperature)
         self.humidity_str = "the humidity is " + str(self.humidity)
