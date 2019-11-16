@@ -7,7 +7,7 @@ This skill is intended to administrate 4 aspects of a orchard: soil moisture, te
 ## Examples
 * "How are my plants"
 * "How is my plant"
-* "How is the soil moisture"
+* "What is the soil moisture"
 * "When was the last time my plants were watered"
 * "When was the last time my plant was watered"
 * "What is the temperature of my plant"
@@ -21,7 +21,7 @@ This skill is intended to administrate 4 aspects of a orchard: soil moisture, te
 * "What is the athmomspheric pressure of my plants"
 * "How is my orchard"
 * "How is my garden"
-* "When was the last time my garder was watered"
+* "When was the last time my garden was watered"
 * "When was the last time my orchard was watered"
 * "What is the temperature of my garden"
 * "What is the temperature of my orchard"
