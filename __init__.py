@@ -18,35 +18,35 @@ class Lahuertaderamiroskill(MycroftSkill):
         self.BH1750 = BH1750(self.BH1750_BUS)
 
 
-    def measure_temperature():
+    def measure_temperature(self):
         try:
             return self.BME280.temperature
         except Exception as e:
             print("[ERROR]: An error has ocurred getting temperature from BME280:\n\n" + e.message)
 
 
-    def measure_humidity():
+    def measure_humidity(self):
         try:
             return self.BME280.humidity
         except Exception as e:
             print("[ERROR]: An error has ocurred getting humidity from BME280:\n\n" + e.message)
 
 
-    def measure_pressure():
+    def measure_pressure(self):
         try:
             return self.BME280.pressure
         except Exception as e:
             print("[ERROR]: An error has ocurred getting pressure from BME280:\n\n" + e.message)
 
 
-    def measure_altitude():
+    def measure_altitude(self):
         try:
             return self.BME280.altitude
         except Exception as e:
             print("[ERROR]: An error has ocurred getting altitude from BME280:\n\n" + e.message)
 
 
-    def measure_luminosity():
+    def measure_luminosity(self):
         try:
             self.BH1750.update()
             if not self.BH1750.sample_ok:
