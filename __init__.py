@@ -68,13 +68,25 @@ class Lahuertaderamiroskill(MycroftSkill):
         self.altitude = measure_altitude()
         self.luminosity = measure_luminosity()
 
-        #self.temperature_str = 
+        self.temperature_str = "the temperature is " + str(self.temperature)
+        self.humidity_str = "the humidity is " + str(self.humidity)
+        self.pressure_str = "the pressure is " + str(self.pressure)
+        self.altitude_str = "the altitude is " + str(self.altitude)
+        self.luminosity_str = "the altitude is " + str(self.luminosity)
 
         message = message.lower()
-        #if "how" in message:
-
-        #elif "temperature" in message:
-
+        if "how" in message:
+            self.speak(self.temperature_str)
+            self.speak(self.humidity_str)
+            self.speak(self.pressure_str)
+            self.speak(self.altitude_str)
+            self.speak(self.luminosity_str)
+        elif "temperature" in message:
+            self.speak(self.temperature_str)
+        elif "luminosity" in message:
+            self.speak(self.luminosity_str)
+        elif "pressure" in message:
+            self.speak(self.pressure_str)
 
 
 
