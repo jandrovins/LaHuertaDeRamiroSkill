@@ -11,7 +11,6 @@ import smbus2
 from i2csense.bh1750 import *
 # Required for MCP3201
 import sys
-import MCP3201
 # Required for pump relay
 import RPi.GPIO as GPIO
 import time
@@ -19,6 +18,53 @@ import time
 from datetime import datetime as dt
 # Required for sendig data to Ubidots
 import ubidots_connection
+
+class MCP3201(object):
+
+    def __init__(self, SPI_BUS, CE_PIN):
+     
+        if SPI_BUS not in [0,1]:
+            raise ValueError('Wrong SPI-BUS:{0} setting (use 0 or 1)!'.format(SPI_BUS))
+        if CE_PIN not in [0,1]:
+            raise ValueError('wrong CE-setting: {0} setting (use 0 for CEO or 1 for CE1)!'.format(CE_PIN))
+        self._spi = spidev.SpiDev()
+        self._spi.open(SPI_BUS, CE_PIN)
+        self._spi.max_speed_hz = 976000
+        pass
+
+    def readADC_MSB(self):
+
+        bytes_received= self._spi.xfer2([0x00,0x00])
+
+        MSB_1 = bytes_received[1]
+        MSB_1 = MSB_1 >> 1 
+
+        MSB_0 = bytes_received[0] & 0b00011111
+        MSB_0 = MSB_0 << 7
+
+        return MSB_0 + MSB_1
+
+    def readADC_LSB(self):
+        
+        bytes_received = self._spi.xfer2([0x00,0x00,0x00,0x00])
+
+        LSB_0 = bytes_received[1] & 0b00000011
+        LSB_0 = bin(LSB_0)[2:].zfill(2)
+
+        LSB_1 = bytes_received[2]
+        LSB_1 = bin(LSB_1)[2:].zfill(8)
+
+        LSB_2 = bytes_received[3]
+        LSB_2 = bin(LSB_2)[2:].zfill(8)
+        LSB_2 = LSB_2[0:2]
+
+        LSB = LSB_0 + LSB_1 + LSB_2
+
+        LSB = LSB[::-1]
+        return int(LSB,base=2)
+
+    def convert_to_voltage(self, adc_output, VREF=3.3):
+        return adc_output * (VREF / (2**12-1))
 
 
 class Lahuertaderamiroskill(MycroftSkill):
@@ -34,7 +80,7 @@ class Lahuertaderamiroskill(MycroftSkill):
         self.BH1750_BUS = smbus2.SMBus(1)
         self.BH1750 = BH1750(self.BH1750_BUS)
 
-        self.MCP3201 = MCP3201.MCP3201(0, 0)
+        self.MCP3201 = MCP3201(0, 0)
 
     def measure_temperature(self):
         try:
