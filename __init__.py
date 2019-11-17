@@ -71,15 +71,15 @@ class Lahuertaderamiroskill(MycroftSkill):
                 print(
                     "[ERROR]: An error has ocurred getting data from BH1750 - sample is not OK")
             else:
-                return round(self.BH1750.current_state_str,2)
+                return self.BH1750.current_state_str
         except Exception as e:
             print(
                 "[ERROR]: An error has ocurred getting luminosity from BH1750:\n\n" + e.message)
 
     def measure_soil_moisture(self):
         try:
-            ADC_output_code = round(self.MCP3201.readADC_MSB(), 2)
-            return 4 * (25 * ADC_output_code - 2302976) / 2149
+            ADC_output_code = self.MCP3201.readADC_MSB()
+            return round((ADC_output_code - 4096) / (1947 - 4096),2)
         
         except Exception as e:
             print(
