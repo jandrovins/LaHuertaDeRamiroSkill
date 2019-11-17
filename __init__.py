@@ -4,6 +4,9 @@ import board,digitalio,busio,time,adafruit_bme280
 # Required for BH1750
 import smbus2
 from i2csense.bh1750 import *
+import sys
+sys.path.insert(0, '/home/pi/LaHuertaDeRamiro')
+import MCP3201 as MCP3201
 
 class Lahuertaderamiroskill(MycroftSkill):
     def __init__(self):
@@ -56,7 +59,11 @@ class Lahuertaderamiroskill(MycroftSkill):
         except Exception as e:
             print("[ERROR]: An error has ocurred getting luminosity from BH1750:\n\n" + e.message)
 
-
+    def measure_soil_moisture(self):
+        try:
+            return self.MCP3201.__init__(0,0)
+        except Exception  as e:
+            print("[ERROR]: An error has ocurred getting soil moisture from MCP3201:\n\n"+e.message)
 
     @intent_file_handler('lahuertaderamiroskill.intent')
     def handle_lahuertaderamiroskill(self, message):
@@ -72,7 +79,7 @@ class Lahuertaderamiroskill(MycroftSkill):
         self.humidity_str = "the humidity is " + str(self.humidity)
         self.pressure_str = "the pressure is " + str(self.pressure)
         self.altitude_str = "the altitude is " + str(self.altitude)
-        self.luminosity_str = "the altitude is " + str(self.luminosity)
+        self.luminosity_str = "the luminosity is " + str(self.luminosity)
 
         message = message.lower()
         if "how" in message:
