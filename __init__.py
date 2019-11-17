@@ -1,4 +1,5 @@
 from mycroft import MycroftSkill, intent_file_handler
+from mycroft.utiil.format import nice_date_time
 # Required for BME280
 import board
 import digitalio
@@ -15,6 +16,8 @@ sys.path.insert(0, '/home/pi/LaHuertaDeRamiro')
 # Required for pump relay
 import RPi.GPIO as GPIO
 import time
+# Required for logging pump activation
+from datetime import datetime as dt
 
 
 class Lahuertaderamiroskill(MycroftSkill):
@@ -124,6 +127,8 @@ class Lahuertaderamiroskill(MycroftSkill):
         GPIO.output(40,GPIO.HIGH)
 
         GPIO.cleanup()
+        with open('/home/pi/last_pump_activation.txt','w') as f:
+            f.write(dt.now().strftime("%d/%m/%Y %H:%M:%S"))
 
 
 
@@ -137,22 +142,32 @@ class Lahuertaderamiroskill(MycroftSkill):
         self.pressure = self.measure_pressure()
         self.altitude = self.measure_altitude()
         self.luminosity = self.measure_luminosity()
+        self.soil_moisture = self.measure_soil_moisture()
 
         self.temperature_str = "the temperature is " + str(self.temperature)
         self.humidity_str = "the humidity is " + str(self.humidity)
         self.pressure_str = "the pressure is " + str(self.pressure)
         self.altitude_str = "the altitude is " + str(self.altitude)
         self.luminosity_str = "the luminosity is " + str(self.luminosity)
+        self.soil_moisture_str = "the soil moisture is " + str(self.soil_moisture)
 
         self.speak(self.temperature_str)
         self.speak(self.soil_str)
         self.speak(self.pressure_str)
         self.speak(self.altitude_str)
         self.speak(self.luminosity_str)
+        self.speak(self.soil_moisture_str)
 
     @intent_file_handler('last_pump_activation.intent')
     def handle_activate_pump(self, message):
         self.speak_dialog('checking')
+        
+        with open('/home/pi/last_pump_activation.txt','w') as f:
+            date_string = f.readline().strip("\n")
+            date_time = (datetime.strptime(date_string,"%d/%m/%Y %H:%M:%S"))
+            date_time_parsed_string = nice_date_time(date_time)
+            self.speak(date_time_parsed_string)
+
 
 
 def create_skill():
