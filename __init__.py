@@ -1,5 +1,5 @@
 from mycroft import MycroftSkill, intent_file_handler
-from mycroft.utiil.format import nice_date_time
+from mycroft.util.format import nice_date_time
 # Required for BME280
 import board
 import digitalio
