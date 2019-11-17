@@ -123,7 +123,7 @@ class Lahuertaderamiroskill(MycroftSkill):
         GPIO.setup(40,GPIO.OUT)
 
         GPIO.output(40,GPIO.LOW)
-        time.sleep(int(message.data.('number')))
+        time.sleep(int(message.data.get('number')))
         GPIO.output(40,GPIO.HIGH)
 
         GPIO.cleanup()
