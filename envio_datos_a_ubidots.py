@@ -3,11 +3,11 @@ from LaHuertaDeRamiroSkill import Lahuertaderamiroskill
 
 import ubidots_connection
 
-x = Lahuertaderamiroskill()
+Ramiro = Lahuertaderamiroskill()
 
-NombreLabel = ["Altitude", "Humidity", "Light", "Pressure", "Temperature","Soil_moiture"]
+Labels = ["Altitude", "Humidity", "Light", "Pressure", "Temperature","Soil_moiture"]
 
-NombreFuncion =[x.measure_altitude(),
+Functions =[x.measure_altitude(),
         x.measure_humidity(),
         x.measure_luminosity(),
         x.measure_pressure(),
@@ -15,4 +15,4 @@ NombreFuncion =[x.measure_altitude(),
         x.measure_soil_moisture()]
 
 for i in range(6):
-    ubidots_connection.send_data(NombreLabel[i],NombreFuncion[i])
+    ubidots_connection.send_data(Labels[i],Functions[i])
