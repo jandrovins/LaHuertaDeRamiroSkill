@@ -11,13 +11,14 @@ import smbus2
 from i2csense.bh1750 import *
 # Required for MCP3201
 import sys
-import MCP3201.MCP3201 as MCP3201
-sys.path.insert(0, '/home/pi/LaHuertaDeRamiro')
+import MCP3201
 # Required for pump relay
 import RPi.GPIO as GPIO
 import time
 # Required for logging pump activation
 from datetime import datetime as dt
+# Required for sendig data to Ubidots
+import ubidots_connection
 
 
 class Lahuertaderamiroskill(MycroftSkill):
@@ -33,7 +34,7 @@ class Lahuertaderamiroskill(MycroftSkill):
         self.BH1750_BUS = smbus2.SMBus(1)
         self.BH1750 = BH1750(self.BH1750_BUS)
 
-        self.MCP3201 = MCP3201(0, 0)
+        self.MCP3201 = MCP3201.MCP3201(0, 0)
 
     def measure_temperature(self):
         try:
@@ -77,7 +78,7 @@ class Lahuertaderamiroskill(MycroftSkill):
 
     def measure_soil_moisture(self):
         try:
-            ADC_output_code = MCP3201.readADC_MSB()
+            ADC_output_code = self.MCP3201.readADC_MSB()
             return ADC_output_code * 100 / 1873
         except Exception as e:
             print(
@@ -129,6 +130,10 @@ class Lahuertaderamiroskill(MycroftSkill):
         GPIO.cleanup()
         with open('/home/pi/last_pump_activation.txt','w') as f:
             f.write(dt.now().strftime("%d/%m/%Y %H:%M:%S"))
+        
+        ubidots_connection.send_data('Pump',1)
+
+
 
 
 
