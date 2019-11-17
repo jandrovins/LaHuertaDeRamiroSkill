@@ -38,28 +38,28 @@ class Lahuertaderamiroskill(MycroftSkill):
 
     def measure_temperature(self):
         try:
-            return self.BME280.temperature
+            return round(self.BME280.temperature,2)
         except Exception as e:
             print(
                 "[ERROR]: An error has ocurred getting temperature from BME280:\n\n" + e.message)
 
     def measure_humidity(self):
         try:
-            return self.BME280.humidity
+            return round(self.BME280.humidity,2)
         except Exception as e:
             print(
                 "[ERROR]: An error has ocurred getting humidity from BME280:\n\n" + e.message)
 
     def measure_pressure(self):
         try:
-            return self.BME280.pressure
+            return round(self.BME280.pressure,2)
         except Exception as e:
             print(
                 "[ERROR]: An error has ocurred getting pressure from BME280:\n\n" + e.message)
 
     def measure_altitude(self):
         try:
-            return self.BME280.altitude
+            return round(self.BME280.altitude, 2)
         except Exception as e:
             print(
                 "[ERROR]: An error has ocurred getting altitude from BME280:\n\n" + e.message)
@@ -71,14 +71,14 @@ class Lahuertaderamiroskill(MycroftSkill):
                 print(
                     "[ERROR]: An error has ocurred getting data from BH1750 - sample is not OK")
             else:
-                return self.BH1750.current_state_str
+                return round(self.BH1750.current_state_str,2)
         except Exception as e:
             print(
                 "[ERROR]: An error has ocurred getting luminosity from BH1750:\n\n" + e.message)
 
     def measure_soil_moisture(self):
         try:
-            ADC_output_code = self.MCP3201.readADC_MSB()
+            ADC_output_code = round(self.MCP3201.readADC_MSB(), 2)
             return 4 * (25 * ADC_output_code - 2302976) / 2149
         
         except Exception as e:
