@@ -1,4 +1,5 @@
 activate the pump {number} seconds
+activate pump {number} seconds
 turn on the pump {number} seconds
 water the plants {number} seconds
 water the plant {number} seconds

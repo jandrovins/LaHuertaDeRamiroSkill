@@ -36,6 +36,30 @@ class Lahuertaderamiroskill(MycroftSkill):
 
         self.MCP3201 = MCP3201(0, 0)
 
+    def string_to_number(self, s):
+        dic = {
+                "one":1,
+                "two":2,
+                "three":3,
+                "four":4,
+                "five":5,
+                "six":6,
+                "seven":7,
+                "eight":8,
+                "nine":9,
+                "ten":10,
+                "eleven":11,
+                "twelve":12,
+                "thirteen":13,
+                "fourteen":14,
+                "fifteen":15
+                }
+        try:
+            if type(int(s)) == type(2):
+                return int(s)
+        except:
+            return int(dic[s])
+
     def measure_temperature(self):
         try:
             return round(self.BME280.temperature,2)
@@ -120,12 +144,14 @@ class Lahuertaderamiroskill(MycroftSkill):
     @intent_file_handler('activate_pump.intent')
     def handle_activate_pump(self, message):
         self.speak_dialog('activating_pump')
+
         GPIO.cleanup()
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(40,GPIO.OUT)
 
+        sleeping_time = self.string_to_number(message.data.get('number'))
         GPIO.output(40,GPIO.LOW)
-        time.sleep(int(message.data.get('number')))
+        time.sleep(sleeping_time)
         GPIO.output(40,GPIO.HIGH)
 
         GPIO.cleanup()
@@ -165,10 +191,10 @@ class Lahuertaderamiroskill(MycroftSkill):
         self.speak(self.soil_moisture_str)
 
     @intent_file_handler('last_pump_activation.intent')
-    def handle_activate_pump(self, message):
+    def handle_last_pump_activation(self, message):
         self.speak_dialog('checking')
         
-        with open('/home/pi/last_pump_activation.txt','w') as f:
+        with open('/home/pi/last_pump_activation.txt','r') as f:
             date_string = f.readline().strip("\n")
             date_time = (datetime.strptime(date_string,"%d/%m/%Y %H:%M:%S"))
             date_time_parsed_string = nice_date_time(date_time)
