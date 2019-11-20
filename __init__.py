@@ -19,6 +19,9 @@ from datetime import datetime as dt
 # Required for sendig data to Ubidots
 from . import ubidots_connection
 from .MCP3201 import MCP3201
+#from . import Relay
+import subprocess
+import os
 
 
 class Lahuertaderamiroskill(MycroftSkill):
@@ -144,21 +147,15 @@ class Lahuertaderamiroskill(MycroftSkill):
     @intent_file_handler('activate_pump.intent')
     def handle_activate_pump(self, message):
         self.speak_dialog('activating_pump')
-
-        GPIO.cleanup()
-        GPIO.setmode(GPIO.BOARD)
-        GPIO.setup(40,GPIO.OUT)
-
         sleeping_time = self.string_to_number(message.data.get('number'))
-        GPIO.output(40,GPIO.LOW)
-        time.sleep(sleeping_time)
-        GPIO.output(40,GPIO.HIGH)
 
-        GPIO.cleanup()
+        os.system("/opt/mycroft/skills/lahuertaderamiroskill.jandrovins/Relay.py " + str(sleeping_time))
+
+
         with open('/home/pi/last_pump_activation.txt','w') as f:
             f.write(dt.now().strftime("%d/%m/%Y %H:%M:%S"))
         
-        ubidots_connection.send_data('Pump',1)
+        ubidots_connection.send_data('pump',1)
 
 
 
