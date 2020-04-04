@@ -1,5 +1,5 @@
 # <img src="https://raw.githack.com/FortAwesome/Font-Awesome/master/svgs/solid/robot.svg" card_color="#40DBB0" width="50" height="50" style="vertical-align:bottom"/> Lahuertaderamiroskill
-Orchestrates a automatic orchard with mycroft
+Orchestrates an automatic orchard with mycroft
 
 ## About
 This skill is intended to administrate 4 aspects of a orchard: soil moisture, temperature, brightness and athmomspheric pressure. this variables will me measure a few times a day, and depending on the data collected mycroft will alert the user to water the plant.
